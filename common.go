@@ -114,6 +114,13 @@ const (
 	scsvRenegotiation uint16 = 0x00ff
 )
 
+type EncryptionLevel uint8
+
+const (
+	EncryptionHandshake EncryptionLevel = iota
+	EncryptionApplication
+)
+
 // CurveID is a tls.CurveID
 type CurveID = tls.CurveID
 
@@ -699,6 +706,18 @@ type Config struct {
 	// autoSessionTicketKeys is like sessionTicketKeys but is owned by the
 	// auto-rotation logic. See Config.ticketKeys.
 	autoSessionTicketKeys []ticketKey
+
+	// AlternativeRecordLayer is used by QUIC
+	AlternativeRecordLayer RecordLayer
+}
+
+// A RecordLayer handles encrypting and decrypting of TLS messages.
+type RecordLayer interface {
+	SetReadKey(encLevel EncryptionLevel, suite *CipherSuiteTLS13, trafficSecret []byte)
+	SetWriteKey(encLevel EncryptionLevel, suite *CipherSuiteTLS13, trafficSecret []byte)
+	ReadHandshakeMessage() ([]byte, error)
+	WriteRecord([]byte) (int, error)
+	SendAlert(uint8)
 }
 
 const (
