@@ -287,16 +287,15 @@ func (cs *ConnectionState) ExportKeyingMaterial(label string, context []byte, le
 	return cs.ekm(label, context, length)
 }
 
-// ClientAuthType declares the policy the server will follow for
-// TLS Client Authentication.
-type ClientAuthType int
+// ClientAuthType is tls.ClientAuthType
+type ClientAuthType = tls.ClientAuthType
 
 const (
-	NoClientCert ClientAuthType = iota
-	RequestClientCert
-	RequireAnyClientCert
-	VerifyClientCertIfGiven
-	RequireAndVerifyClientCert
+	NoClientCert               = tls.NoClientCert
+	RequestClientCert          = tls.RequestClientCert
+	RequireAnyClientCert       = tls.RequireAnyClientCert
+	VerifyClientCertIfGiven    = tls.VerifyClientCertIfGiven
+	RequireAndVerifyClientCert = tls.RequireAndVerifyClientCert
 )
 
 // requiresClientCert reports whether the ClientAuthType requires a client
@@ -346,8 +345,6 @@ type ClientSessionCache interface {
 	// it should remove the cache entry.
 	Put(sessionKey string, cs *ClientSessionState)
 }
-
-//go:generate stringer -type=ClientAuthType -output=common_string.go
 
 // SignatureScheme is a tls.SignatureScheme
 type SignatureScheme = tls.SignatureScheme
