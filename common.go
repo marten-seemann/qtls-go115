@@ -288,6 +288,8 @@ type ConnectionState struct {
 	// RFC 7627, and https://mitls.org/pages/attacks/3SHAKE#channelbindings.
 	TLSUnique []byte
 
+	Used0RTT bool // true if 0-RTT was both offered and accepted
+
 	// ekm is a closure exposed via ExportKeyingMaterial.
 	ekm func(label string, context []byte, length int) ([]byte, error)
 }
