@@ -1,0 +1,32 @@
+version: 2.1
+
+jobs:
+  "test": &test
+    docker:
+      - image: "circleci/golang:1.14"
+    working_directory: /go/src/github.com/marten-seemann/qtls
+    steps:
+      - checkout
+      - run:
+          name: "Setup build environment"
+          command: |
+            go get -t ./...
+      - run:
+          name: "Build infos"
+          command: |
+            echo $GOARCH
+            go version
+      - run:
+          name: "Run tests"
+          command: go test
+      - run:
+          name: "Run tests with race detector"
+          command: go test -race
+  go114:
+    <<: *test
+    
+
+workflows:
+  workflow:
+    jobs:
+      - go114
