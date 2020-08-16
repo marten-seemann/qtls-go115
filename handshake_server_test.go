@@ -1484,14 +1484,14 @@ var getConfigForClientTests = []struct {
 			for i := range config.SessionTicketKey {
 				config.SessionTicketKey[i] = byte(i)
 			}
-			config.sessionTicketKeys = nil
+			fromConfig(config).sessionTicketKeys = nil
 		},
 		func(clientHello *ClientHelloInfo) (*Config, error) {
 			config := testConfig.Clone()
 			for i := range config.SessionTicketKey {
 				config.SessionTicketKey[i] = 0
 			}
-			config.sessionTicketKeys = nil
+			fromConfig(config).sessionTicketKeys = nil
 			return config, nil
 		},
 		"",
@@ -1513,7 +1513,7 @@ var getConfigForClientTests = []struct {
 		},
 		func(clientHello *ClientHelloInfo) (*Config, error) {
 			config := testConfig.Clone()
-			config.sessionTicketKeys = nil
+			fromConfig(config).sessionTicketKeys = nil
 			return config, nil
 		},
 		"",
