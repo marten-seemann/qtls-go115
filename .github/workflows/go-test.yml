@@ -1,14 +1,19 @@
-name: go test
-on: [ push, pull_request ]
+on: 
+  push:
+  pull_request:
+  schedule: 
+    - cron: '0 3 * * *' # every day at 3am
 jobs:
-  test:
+  gotest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2.1.1
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.15'
       - name: Install dependencies
         run: go build
       - name: Run tests
-        run: go test
+        run: go test -v
       - name: Run tests with race detector
-        run: go test -race
+        run: go test -v -race
